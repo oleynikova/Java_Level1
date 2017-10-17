@@ -44,7 +44,11 @@ public class Main {
     // Метод, вычисляющий выражение a * (b + (c / d)) и возвращающий результат
     public static int task3(int a, int b, int c, int d){
 
-        return a * (b + (c / d));
+        if (d == 0) {
+            return a * (b + (c / d));
+        } else {
+            return 0;
+        }
     }
 
     // Метод, принимающий на вход два числа, и проверяющий что их сумма лежит в
