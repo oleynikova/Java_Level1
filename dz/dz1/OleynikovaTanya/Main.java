@@ -96,7 +96,7 @@ public class Main {
     public static void task8(int year) {
 
         System.out.print("Год " + year);
-        if ((year % 4) == 0 && ((year % 100 != 0) || (year % 400 == 0))) {
+        if ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0))) {
             System.out.print(" является високосным");
         } else {
             System.out.print(" не является високосным");
