@@ -19,7 +19,7 @@ public class GuessNumber {
        do {
            boolean win = false;
            Random random = new Random();
-           int number = random.nextInt(9);
+           int number = random.nextInt(10);
            System.out.println("Загадано случайное число от 0 до 9. У вас есть 3 попытки отгадать его. И это число...");
            for (int i = 1; i <= 3; i++){
                win = guessNumber(number);
