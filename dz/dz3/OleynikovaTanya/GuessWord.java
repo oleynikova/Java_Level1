@@ -31,7 +31,7 @@ public class GuessWord {
                 "peanut", "pear", "pepper", "pineapple", "pumpkin", "potato"};
 
         Random random = new Random();
-        String word = words[random.nextInt(24)];
+        String word = words[random.nextInt(words.length - 1)];
         System.out.println("Загадано слово из списка: ");
         System.out.println(Arrays.toString(words));
         System.out.println("И это слово...");
@@ -64,7 +64,7 @@ public class GuessWord {
             for (int i = indexEnd; i < 15; i ++) {
                 correctCharacters += '#';
             }
-            System.out.printf("Какие символы стоят на месте: %s", correctCharacters);
+            System.out.printf("Cимволы, которые стоят на своих местах: %s", correctCharacters);
             System.out.println();
             System.out.println("Попытайтесь еще раз угадать это слово.");
         }
