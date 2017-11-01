@@ -175,12 +175,11 @@ public class TickTackToe {
     private static void aiTurn() {
         int x, y;
 
-        if (findBestMoveHorizontalVertical(true) ||
-                findBestMoveHorizontalVertical(false) ||
-                findBestMoveMainDiagonal(true) ||
-                findBestMoveMainDiagonal(false) ||
-                findBestMoveLeftRightMainDiagonal(true) ||
-                findBestMoveLeftRightMainDiagonal(false)) {
+        if (findBestMove('O', 'O')) {
+            return;
+        }
+
+        if (findBestMove('X', 'O')) {
             return;
         }
 
@@ -195,15 +194,24 @@ public class TickTackToe {
         map[y][x] = 'O'; // как только ячейка найдена, ставим туда О
     }
 
+    public static boolean findBestMove(char c, char v){
+        return (findBestMoveHorizontalVertical(true, c, v) ||
+                findBestMoveHorizontalVertical(false, c, v) ||
+                findBestMoveMainDiagonal(true, c, v) ||
+                findBestMoveMainDiagonal(false, c, v) ||
+                findBestMoveLeftRightMainDiagonal(true, c, v) ||
+                findBestMoveLeftRightMainDiagonal(false, c, v));
+    }
+
     // Ищется лучший ход по горизонтали или вертикали в зависимости от параметра horizontal
-    public static boolean findBestMoveHorizontalVertical(boolean horizontal) {
+    public static boolean findBestMoveHorizontalVertical(boolean horizontal, char c, char v) {
 
         int lineLength = 0;
         int previous = -1;
         for (int i = 0; i < SIZE; i++){
 
-            if ((horizontal && map[currentX][i] == 'X') ||
-                    (!horizontal && map[i][currentY] == 'X')){
+            if ((horizontal && map[currentX][i] == c) ||
+                    (!horizontal && map[i][currentY] == c)){
                 lineLength++;
             } else if (previous == -1) {
                 previous = i;
@@ -213,10 +221,10 @@ public class TickTackToe {
 
         if (lineLength == DOTS_TO_WIN - 1) {
             if (horizontal && isCellEmpty(previous, currentX)) {
-                map[currentX][previous] = 'O';
+                map[currentX][previous] = v;
                 currentY = previous;
             } else if (!horizontal && isCellEmpty(currentY, previous)) {
-                map[previous][currentY] = 'O';
+                map[previous][currentY] = v;
                 currentX = previous;
             }
             return true;
@@ -225,7 +233,7 @@ public class TickTackToe {
     }
 
     // Ищется лучший ход по главной или побочной диагонали в зависимости от параметра main
-    public static boolean findBestMoveMainDiagonal(boolean main) {
+    public static boolean findBestMoveMainDiagonal(boolean main, char c, char v) {
 
          if ((main && currentX != currentY) ||
                 (!main && currentY != checkLength - currentX )) return false;
@@ -235,8 +243,8 @@ public class TickTackToe {
         int previousY = -1;
         for (int i = 0; i < SIZE; i++) {
 
-            if ((main && map[i][i] == 'X') ||
-                    (!main && map[i][checkLength- i] == 'X')){
+            if ((main && map[i][i] == c) ||
+                    (!main && map[i][checkLength- i] == c)){
                 lineLength++;
             } else if (previousX == -1) {
                 previousX = i;
@@ -246,7 +254,7 @@ public class TickTackToe {
         }
 
         if ((lineLength == DOTS_TO_WIN - 1) && isCellEmpty(previousY, previousX)) {
-            map[previousX][previousY] = 'O';
+            map[previousX][previousY] = v;
             currentX = previousX;
             currentY = previousY;
             return true;
@@ -255,7 +263,7 @@ public class TickTackToe {
     }
 
     // Ищется лучший ход по диагонали, расположенной слева или справа от главной в зависимости от параметра left
-    public static boolean findBestMoveLeftRightMainDiagonal(boolean left) {
+    public static boolean findBestMoveLeftRightMainDiagonal(boolean left, char c, char v) {
 
         if ((left && currentX <= currentY) ||
                 (!left && currentX >= currentY)) return false;
@@ -266,8 +274,8 @@ public class TickTackToe {
         int difference = left ? currentX - currentY : currentY - currentX;
         for (int x = left ? currentX - currentY : 0; left ? x < SIZE : x + difference < SIZE; x++) {
 
-            if ((left && map[x][x-difference] == 'X') ||
-                    (!left && map[x][x+difference] == 'X')){
+            if ((left && map[x][x-difference] == c) ||
+                    (!left && map[x][x+difference] == c)){
                 lineLength++;
             } else if (previousX == -1) {
                 previousX = x;
@@ -277,7 +285,7 @@ public class TickTackToe {
         }
 
         if ((lineLength == DOTS_TO_WIN - 1) && isCellEmpty(previousY, previousX)) {
-            map[previousX][previousY] = 'O';
+            map[previousX][previousY] = v;
             currentX = previousX;
             currentY = previousY;
             return true;
